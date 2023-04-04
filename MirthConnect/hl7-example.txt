@@ -1,0 +1,7 @@
+MSH|^~\&|SendingApp|SendingFacility|ReceivingApp|ReceivingFacility|20220329120000||ADT^A04|MSG00001|P|2.3|
+EVN|A04|20220329120000|||
+PID|||1234567^^^SendingFacility||Doe^John||19781215|M|||123 Main St^^Anytown^TX^12345^USA|concelho_1|(111)555-1234|||||||||||||||||
+PV1||I|ola^^^SendingFacility|||3|||E||20220329103000|||||||||classe_1||||||||||||||||||||||||20232303^1230||||||||
+DG1|1||ICD-10-CM|S72.0XXA^Fracture of neck of right femur, initial encounter for closed fracture^M|||||||||||||||
+OBX|||Q1||What is your main reason for seeking care today?||||
+ABI|Via Verde Code|12345|
