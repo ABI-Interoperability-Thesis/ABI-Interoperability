@@ -4,4 +4,4 @@ PID|||1234567^^^SendingFacility||Doe^John||19781215|M|||123 Main St^^Anytown^TX^
 PV1||I|ola^^^SendingFacility|||3|||E||20220329103000|||||||||classe_1||||||||||||||||||||||||20232303^1230||||||||
 DG1|1||ICD-10-CM|S72.0XXA^Fracture of neck of right femur, initial encounter for closed fracture^M|||||||||||||||
 OBX|||Q1||What is your main reason for seeking care today?||||
-ABI|Via Verde Code|12345|
+OBX|1|CE|ViaVerdeCode^Via Verde Code^LN||1234^Via Verde Code 1234^HL70396|

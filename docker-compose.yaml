@@ -1,7 +1,7 @@
 version: "3.1"
 services:
   mirth-connect:
-    image: nextgenhealthcare/connect
+    image: nextgenhealthcare/connect:latest
     container_name: 'mirth-connect'
     environment:
       - DATABASE=postgres
@@ -17,6 +17,7 @@ services:
     ports:
       - 8080:8080/tcp
       - 8443:8443/tcp
+      - 5050:5050
     depends_on:
       - db
   db:
@@ -55,9 +56,33 @@ services:
 
   message-handler:
     build: ./MessageHandler
-    container_name: 'message-handler'
+    container_name: 'message-queue-webservice'
+
+  mirth-api-handler:
+    build: ./MirthAPIHandler
+    container_name: 'mirth-api-webservice'
+    ports:
+      - "3000:3000"
+
+  mysql-db:
+    image: mysql:latest
+    container_name: mysql-container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: abi-metadata
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    ports:
+      - "3306:3306"
+    expose:
+      - 3306
+    volumes:
+      - mysql_data:/var/lib/mysql
+
   
 volumes:
   portainer_data:
   rabbitmq_data:
   postgres_data:
+  mysql_data:

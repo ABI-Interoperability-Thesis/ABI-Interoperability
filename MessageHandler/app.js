@@ -33,5 +33,6 @@ app.post('/data', async (req,res)=>{
 
 
 app.listen(3000, ()=>{
+    console.log('-- Message Queue Handler Webservice --')
     console.log('App listening in port 3000')
 })
