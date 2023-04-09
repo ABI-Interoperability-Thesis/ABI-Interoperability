@@ -5,3 +5,30 @@ PV1||I|ola^^^SendingFacility|||3|||E||20220329103000|||||||||classe_1|||||||||||
 DG1|1||ICD-10-CM|S72.0XXA^Fracture of neck of right femur, initial encounter for closed fracture^M|||||||||||||||
 OBX|||Q1||What is your main reason for seeking care today?||||
 OBX|1|CE|ViaVerdeCode^Via Verde Code^LN||1234^Via Verde Code 1234^HL70396|
+
+
+MSH|^~&|SendingApp|SendingFacility|ReceivingApp|ReceivingFacility|20230408220000||ADT^A04|MSG00003|P|2.3|
+EVN|A04|20230408220000|||
+PID|||2468101^^^SendingFacility||Lee^Steven||19871109|M|||789 Elm St^^Anytown^CA^54321^USA|concelho_3|(111)555-2468|||||||||||||||||
+PV1||I|ola^^^SendingFacility|||3|||E||20230408113000|||||||||classe_3||||||||||||||||||||||||20232303^1230||||||||
+DG1|1||ICD-10-CM|S72.1XXA^Fracture of neck of right femur, initial encounter for open fracture type I or II^M|||||||||||||||
+OBX|||Q1||What brings you in today?||||
+OBX|1|CE|ViaVerdeCode^Via Verde Code^LN||2468^Via Verde Code 2468^HL70396|
+
+
+MSH|^~&|SendingApp|SendingFacility|ReceivingApp|ReceivingFacility|20230408120000||ADT^A04|MSG00003|P|2.3|
+EVN|A04|20230408120000|||
+PID|||246810^^^SendingFacility||Brown^Robert||19750310|M|||789 Elm St^^Anytown^TX^12345^USA|concelho_3|(111)555-9012|||||||||||||||||
+PV1||I|ola^^^SendingFacility|||3|||E||20230408103000|||||||||classe_3||||||||||||||||||||||||20232303^1230||||||||
+DG1|1||ICD-10-CM|J45.909^Unspecified asthma, uncomplicated^M|||||||||||||||
+OBX|||Q1||What brings you in to see the doctor today?||||
+OBX|1|CE|ViaVerdeCode^Via Verde Code^LN||2468^Via Verde Code 2468^HL70396|
+
+
+MSH|^~\&|SendingApp|test-facility|ReceivingApp|ReceivingFacility|20230408090000||ADT^A04|MSG00003|P|2.3|
+EVN|A04|20230408090000|||
+PID|||2468101^^^SendingFacility||Garcia^Sofia||19960130|F|||789 Elm St^^Anytown^TX^12345^USA|concelho_3|(111)555-2468|||||||||||||||||
+PV1||I|ola^^^SendingFacility|||3|||E||20230408083000|||||||||classe_3||||||||||||||||||||||||20232303^1230||||||||
+DG1|1||ICD-10-CM|M25.511^Pain in right shoulder^M|||||||||||||||
+OBX|||Q1||What brings you in today?||||
+OBX|1|CE|ViaVerdeCode^Via Verde Code^LN||1357^Via Verde Code 1357^HL70396|
