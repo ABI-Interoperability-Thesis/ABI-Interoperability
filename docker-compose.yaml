@@ -17,7 +17,7 @@ services:
     ports:
       - 8080:8080/tcp
       - 8443:8443/tcp
-      - 5050:5050
+      - 1000-1100:1000-1100
     depends_on:
       - db
   db:
@@ -57,6 +57,11 @@ services:
   message-handler:
     build: ./MessageHandler
     container_name: 'message-queue-webservice'
+    environment:
+      - PORT=3000
+    depends_on:
+      - rabbitmq
+
 
   mirth-api-handler:
     build: ./MirthAPIHandler

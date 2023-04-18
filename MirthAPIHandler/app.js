@@ -42,7 +42,7 @@ app.get('/', (req, res) => {
 })
 
 app.post('/channel', (req, res) => {
-    const {channel_name, channel_port} = req.body
+    const {channel_name, channel_port, mappings} = req.body
     const url = "https://mirth-connect:8443/api/channels";
     const username = "admin";
     const password = "123";
@@ -55,7 +55,7 @@ app.post('/channel', (req, res) => {
         'Content-Type': 'application/json'
     };
 
-    const data = generateChannel(channel_name, channel_port)
+    const data = generateChannel(channel_name, channel_port, mappings)
 
     const config = {
         method: 'post',
