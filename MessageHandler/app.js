@@ -5,8 +5,10 @@ const utils = require('./utils')
 const app = express()
 
 const PORT = process.env.PORT || 3000
-const rabbit_url = 'amqp://admin:password@rabbitmq'
+const docker_machine_deploy = '192.168.233.54:5672' // VM
+const docker_machine_local = 'rabbitmq' // Local
 
+const rabbit_url = process.env.DEPLOY === 'prod' ? `amqp://guest:guest@${docker_machine_deploy}` : `amqp://guest:guest@${docker_machine_local}`
 
 app.use(express.json())
 
@@ -53,6 +55,7 @@ const checkRabbitMQServer = async () => {
 };
 
 const listenToRabbitMQ = async () => {
+  console.log(`Connecting to ${rabbit_url}`)
   const connection = await checkRabbitMQServer()
   const channel = await connection.createChannel();
 
@@ -71,9 +74,9 @@ const listenToRabbitMQ = async () => {
   }, { noAck: true });
 }
 
-listenToRabbitMQ().catch(console.error);
 
 app.listen(PORT, () => {
   console.log('-- Message Queue Handler Webservice --')
+  listenToRabbitMQ().catch(console.error);
   console.log('App listening in port 3000')
 })

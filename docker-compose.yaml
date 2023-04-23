@@ -39,8 +39,8 @@ services:
       - "5672:5672" # RabbitMQ standard port
       - "15672:15672" # RabbitMQ Management UI
     environment:
-      RABBITMQ_DEFAULT_USER: admin
-      RABBITMQ_DEFAULT_PASS: password
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq # Persistent data storage for RabbitMQ
 
@@ -61,6 +61,9 @@ services:
       - PORT=3000
     depends_on:
       - rabbitmq
+    environment:
+      - DEPLOY=dev
+      - PORT=3000
 
 
   mirth-api-handler:
