@@ -19,8 +19,8 @@ services:
       - 8443:8443/tcp
       - 1000-1100:1000-1100
     depends_on:
-      - db
-  db:
+      - postgres_db
+  postgres_db:
     image: postgres
     container_name: 'postgres-db'
     environment:
@@ -30,7 +30,7 @@ services:
     expose:
       - 5432
     volumes:
-      - postgres_data:/var/lib/postgresql/data # Persistent Postgres data form mirth
+      - postgres_data:/var/lib/postgresql/data # Persistent Postgres data for mirth db
 
   rabbitmq:
     image: rabbitmq:management-alpine
@@ -51,26 +51,47 @@ services:
     ports:
       - "9000:9000"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock 
+      - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data # Persistent portainer data
 
   message-handler:
-    build: ./MessageHandler
+    build: ./rabbitmq-webservice
     container_name: 'message-queue-webservice'
     environment:
       - PORT=3000
+      - ENV=local # for connection with local rabbitmq container. prod for connection with vm rabbitmq container
+      - RABBIT_USERNAME=guest
+      - RABBIT_PASSWORD=guest
     depends_on:
       - rabbitmq
-    environment:
-      - DEPLOY=dev
-      - PORT=3000
-
+    ports:
+      - "3001:3000"
 
   mirth-api-handler:
-    build: ./MirthAPIHandler
+    build: ./mirth-api-webservice
     container_name: 'mirth-api-webservice'
+    environment:
+      - PORT=3000
+      - MIRTH_USERNAME=admin
+      - MIRTH_PASSWORD=123
+      - ENV=prod # prod for connection with mirth connect container
+      - DB_USERNAME=admin
+      - DB_PASSWORD=admin
+      - DB_NAME=abi-metadata
     ports:
       - "3000:3000"
+
+  mysql-handler:
+    build: ./mysql-webservice
+    container_name: 'mysql-webservice'
+    environment:
+      - PORT=3000
+      - ENV=prod # prod for connection with mysql container
+      - DB_USERNAME=admin
+      - DB_PASSWORD=admin
+      - DB_NAME=abi-metadata
+    ports:
+      - "3002:3000"
 
   mysql-db:
     image: mysql:latest
@@ -88,7 +109,7 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
-  
+# Volumes declaration
 volumes:
   portainer_data:
   rabbitmq_data:
