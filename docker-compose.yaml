@@ -69,6 +69,17 @@ services:
       - 3306
     volumes:
       - mysql_data:/var/lib/mysql
+  
+  preprocessing-ws:
+    image: docker.pkg.github.com/abi-interoperability-thesis/preprocessing-webservice:latest
+    container_name: 'preprocessing-webservice'
+    environment:
+      - PORT=3000
+      - ENV=prod
+    ports:
+    - "3003:3000"
+    depends_on:
+      - mysql-handler
 
   
 volumes:
