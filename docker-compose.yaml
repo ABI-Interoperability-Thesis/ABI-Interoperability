@@ -71,7 +71,7 @@ services:
       - mysql_data:/var/lib/mysql
   
   preprocessing-ws:
-    image: docker.pkg.github.com/abi-interoperability-thesis/preprocessing-webservice:latest
+    image: ghcr.io/abi-interoperability-thesis/preprocessing-webservice:latest
     container_name: 'preprocessing-webservice'
     environment:
       - PORT=3000
