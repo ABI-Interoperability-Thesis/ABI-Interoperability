@@ -78,8 +78,8 @@ services:
       - ENV=prod
     ports:
     - "3003:3000"
-    depends_on:
-      - mysql-handler
+    #depends_on:
+     # - mysql-handler
 
   
 volumes:
