@@ -20,6 +20,7 @@ services:
       - 1000-1100:1000-1100
     depends_on:
       - db
+  
   db:
     image: postgres
     container_name: 'postgres-db'
@@ -55,7 +56,7 @@ services:
       - portainer_data:/data # Persistent portainer data
 
   mysql-db:
-    image: mysql:latest
+    image: mysql:8.0
     container_name: mysql-container
     restart: always
     environment:
@@ -70,32 +71,71 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
   
-  preprocessing-ws:
-    image: ghcr.io/abi-interoperability-thesis/preprocessing-webservice:latest
-    container_name: 'preprocessing-webservice'
-    environment:
-      - PORT=3000
-      - ENV=prod
-    ports:
-    - "3003:3000"
-    depends_on:
-      - mysql-handler
-
   mysql-handler:
-    image: ghcr.io/abi-interoperability-thesis/mysql-webservice:latest
+    #image: ghcr.io/abi-interoperability-thesis/mysql-webservice:latest
+    build: ../mysql-webservice
     container_name: 'mysql-webservice'
     environment:
       - PORT=3000
       - ENV=prod
       - DB_USERNAME=admin
       - DB_PASSWORD=admin
+      - DB_HOST=mysql-container
       - DB_NAME=abi-metadata
     ports:
     - "3002:3000"
     depends_on:
       - mysql-db
 
-  
+  abi-webapp:
+    image: ghcr.io/abi-interoperability-thesis/abi-interoperability-webapp:latest
+    container_name: 'abi-webapp'
+    ports:
+      - "3003:3000"
+    environment:
+      - NODE_ENV=production
+      - REACT_APP_ENV=prod
+      - REACT_APP_MYSQL_SERVICE_ENDPOINT=http://127.0.0.1:3002
+      - REACT_APP_MIRTH_SERVICE_ENDPOINT=http://127.0.0.1:3000
+      - REACT_APP_RABBITMQ_SERVICE_ENDPOINT=http://127.0.0.1:3001
+      - REACT_APP_MIRTH_ENDPOINT=http://mirth-connect
+      - REACT_APP_MIRTH_ENDPOINT_DOCS=http://127.0.0.1
+    depends_on:
+      - mysql-webservice
+      - mirth-api-webservice
+      - message-queue-webservice
+
+  mirth-api-handler:
+    image: ghcr.io/abi-interoperability-thesis/mirth-api-webservice:latest
+    container_name: 'mirth-api-webservice'
+    environment:
+      - PORT=3000
+      - MIRTH_USERNAME=admin
+      - MIRTH_PASSWORD=admin
+      - ENV=prod
+      - DB_USERNAME=admin
+      - DB_PASSWORD=admin
+      - DB_NAME=abi-metadata
+      - MIRTH_ENDPOINT=https://mirth-connect:8443
+      - MYSQL_SERVICE_ENDPOINT=http://mysql-webservice:3000
+    ports:
+      - "3000:3000"
+
+  message-handler:
+      image: ghcr.io/abi-interoperability-thesis/rabbitmq-webservice:latest
+      container_name: 'message-queue-webservice'
+      environment:
+        - PORT=3000
+        - ENV=local
+        - RABBIT_USERNAME=guest
+        - RABBIT_PASSWORD=guest
+        - RABBIT_MQ_HOST=rabbitmq:5672
+        - MYSQL_SERVICE_ENDPOINT=http://mysql-webservice:3000
+      depends_on:
+        - rabbitmq
+      ports:
+        - "3001:3000"
+
 volumes:
   portainer_data:
   rabbitmq_data:
